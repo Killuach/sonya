@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Для нашей любимой девочки ❤️</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Dancing+Script:wght@500;700&family=Special+Elite&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        paper: '#F5EFE6',
+                        'paper-dark': '#EADEC9',
+                        burgundy: '#8B0000',
+                        crimson: '#C0392B',
+                        'kiss-red': '#B81D24',
+                        gold: '#D4AF37',
+                    },
+                    fontFamily: {
+                        handwriting: ['Caveat', 'cursive'],
+                        cursive: ['"Dancing Script"', 'cursive'],
+                        typewriter: ['"Special Elite"', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #E2DACD;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+
+        .mobile-container {
+            max-width: 430px;
+            min-height: 100vh;
+            margin: 0 auto;
+            background-color: #F5EFE6;
+            box-shadow: 0 0 35px rgba(0, 0, 0, 0.18);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .paper-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+        }
+
+        .polaroid-shadow {
+            box-shadow: 3px 12px 20px rgba(80, 50, 40, 0.18), 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .tape {
+            background: rgba(245, 230, 200, 0.85);
+            border: 1px solid rgba(220, 200, 160, 0.6);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(1px);
+        }
+
+        /* Обрезка текста с кнопкой разворачивания */
+        .line-clamp-3-custom {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .line-clamp-none-custom {
+            display: block;
+            overflow: visible;
+        }
+
+        @keyframes kissPop {
+            0% {
+                transform: translate(-50%, -50%) scale(0) rotate(var(--rot));
+                opacity: 0;
+            }
+            60% {
+                transform: translate(-50%, -50%) scale(1.15) rotate(var(--rot));
+                opacity: 0.95;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1) rotate(var(--rot));
+                opacity: 0.85;
+            }
+        }
+
+        .kiss-stamp {
+            position: absolute;
+            pointer-events: none;
+            z-index: 40;
+            animation: kissPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            filter: drop-shadow(0 2px 4px rgba(139, 0, 0, 0.25));
+        }
+
+        @keyframes flyAway {
+            0% {
+                transform: scale(1) rotate(0deg) translate(0, 0);
+                opacity: 1;
+            }
+            35% {
+                transform: scale(1.25) rotate(-20deg) translate(-15px, -20px);
+                opacity: 0.95;
+            }
+            100% {
+                transform: scale(0.2) rotate(60deg) translate(280px, -380px);
+                opacity: 0;
+            }
+        }
+
+        .anim-fly-away {
+            animation: flyAway 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+            pointer-events: none;
+        }
+
+        .highlight-yellow {
+            background: linear-gradient(120deg, rgba(254, 240, 138, 0.8) 0%, rgba(253, 224, 71, 0.8) 100%);
+            padding: 0 4px;
+            border-radius: 3px;
+        }
+
+        .highlight-pink {
+            border: 2px solid #F472B6;
+            border-radius: 999px;
+            padding: 0 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-container relative min-h-screen pb-16 flex flex-col justify-start">
+
+        <!-- Кнопка очистки поцелуев -->
+        <div class="fixed top-3 right-3 z-50 flex items-center gap-2">
+            <button id="clear-kisses-btn" title="Очистить поцелуи" class="hidden bg-white/90 backdrop-blur-md p-2 rounded-full shadow-md text-red-700 hover:bg-red-50 text-xs font-semibold flex items-center gap-1 border border-red-100 transition active:scale-95">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                <span id="kiss-count" class="bg-red-100 text-red-800 text-[10px] px-1.5 py-0.5 rounded-full font-bold">0</span>
+            </button>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- ЭКРАН 1: ЗАКРЫТЫЙ КОНВЕРТ -->
+        <!-- ================================================================= -->
+        <section id="step-1" class="w-full min-h-screen p-6 flex flex-col items-center justify-between relative z-20 transition-all duration-700">
+            <div class="pt-8 text-center w-full">
+                <div class="inline-block transform -rotate-2 mb-2">
+                    <span class="text-xs uppercase tracking-widest text-burgundy font-semibold bg-red-100/80 px-3 py-1 rounded-full border border-red-200">
+                        Особенное письмо для тебя
+                    </span>
+                </div>
+            </div>
+
+            <div class="w-full flex flex-col items-center justify-center my-auto relative">
+                <div class="w-full max-w-[310px] aspect-[4/3] bg-[#EBE2D3] border-2 border-[#D9CEBC] rounded-lg polaroid-shadow relative flex flex-col items-center justify-center p-4">
+                    <svg class="absolute inset-0 w-full h-full text-[#D4C8B4]" viewBox="0 0 300 220" fill="none" preserveAspectRatio="none">
+                        <path d="M0 0 L150 120 L300 0" stroke="currentColor" stroke-width="2"/>
+                        <path d="M0 220 L120 100" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+                        <path d="M300 220 L180 100" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+                    </svg>
+
+                    <div id="seal-step-1" class="w-16 h-16 rounded-full bg-burgundy shadow-lg border-2 border-red-900 flex items-center justify-center relative z-10 transform hover:scale-105 active:scale-90 transition cursor-pointer">
+                        <svg class="w-10 h-10 text-white transform -rotate-6" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <h1 class="font-handwriting text-5xl text-burgundy font-bold tracking-wide transform -rotate-1">
+                        Для нашей любимой девочки
+                    </h1>
+                </div>
+
+                <div class="mt-6">
+                    <button id="tap-to-open-btn" class="bg-white hover:bg-red-50 text-burgundy border border-red-200/80 font-medium px-8 py-3 rounded-full shadow-lg text-sm tracking-widest uppercase transition-all duration-300 transform active:scale-95 flex items-center gap-2">
+                        <span>НАЖМИ, ЧТОБЫ ОТКРЫТЬ</span>
+                        <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="pb-4 text-center opacity-50">
+                <span class="font-handwriting text-xl text-burgundy">♥ с заботой и любовью ♥</span>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- ЭКРАН 2: АНИМАЦИЯ ОТКРЫТИЯ КОНВЕРТА -->
+        <!-- ================================================================= -->
+        <section id="step-2" class="w-full min-h-screen p-6 hidden flex-col items-center justify-between relative z-20 transition-all duration-700">
+            <div class="pt-6 text-center w-full">
+                <h2 class="font-cursive text-3xl text-burgundy tracking-wide transform -rotate-2">
+                    От близких с любовью
+                </h2>
+            </div>
+
+            <div class="w-full max-w-[320px] my-auto flex flex-col items-center relative">
+                <div class="w-full aspect-[4/3] relative" id="main-envelope">
+                    <div class="absolute inset-0 bg-[#E8DDD0] border border-[#D9CEBC] rounded-lg polaroid-shadow overflow-hidden pointer-events-none">
+                        <div class="absolute inset-0 bg-gradient-to-b from-[#CFC1AE] to-[#E8DDD0]"></div>
+                    </div>
+
+                    <div id="letter-preview" class="absolute bottom-0 left-[8%] w-[84%] h-[72%] bg-white rounded-t-lg border border-gray-200 shadow-md p-3 text-center transform translate-y-0 cursor-grab active:cursor-grabbing z-10 select-none">
+                        <p class="font-cursive text-2xl text-burgundy font-bold mb-1">Нашей родной</p>
+                        <p class="font-handwriting text-base text-gray-600 leading-tight">Открой, чтобы прочитать наши главные слова...</p>
+                    </div>
+
+                    <div class="absolute inset-0 pointer-events-none z-20">
+                        <svg class="w-full h-full text-[#E0D4C3]" viewBox="0 0 300 220" fill="none" preserveAspectRatio="none">
+                            <path d="M0 0 L135 110 L0 220" fill="#E2D6C7" stroke="#D5C7B3" stroke-width="1.5"/>
+                            <path d="M300 0 L165 110 L300 220" fill="#E2D6C7" stroke="#D5C7B3" stroke-width="1.5"/>
+                            <path d="M0 220 L150 112 L300 220" fill="#EADEC9" stroke="#CFC1AE" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="mt-5 flex items-center gap-1.5 text-xs text-burgundy font-medium bg-red-100/80 border border-red-200 px-3.5 py-1.5 rounded-full animate-bounce shadow-sm">
+                    <span>👆 Потяни письмо вверх</span>
+                </div>
+            </div>
+
+            <div class="pb-8">
+                <button id="open-it-btn" class="bg-white hover:bg-red-50 text-burgundy border border-red-300 font-semibold px-10 py-3.5 rounded-full shadow-lg text-sm tracking-widest uppercase transition-all transform active:scale-95 flex items-center gap-2">
+                    <span>ПРОЧИТАТЬ</span>
+                    <svg class="w-4 h-4 text-burgundy" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- ЭКРАН 3: ОСНОВНОЙ СКРАПБУК АЛЬБОМ -->
+        <!-- ================================================================= -->
+        <main id="scrapbook-feed" class="w-full hidden flex-col relative z-10 px-4 py-6 space-y-10">
+            
+            <div class="w-full text-center py-2.5 px-4 bg-red-100/80 border border-red-200/80 rounded-full text-burgundy font-handwriting text-xl flex items-center justify-center gap-2 shadow-sm animate-pulse">
+                <span>💋</span>
+                <span>Жми на экран в любом месте, чтобы ставить поцелуи!</span>
+            </div>
+
+            <!-- 🎉 ВЫРЕЗКИ ИЗ ГАЗЕТ: "С ДНЕМ РОЖДЕНИЯ!" -->
+            <section class="flex flex-col items-center gap-2 pt-4 w-full">
+                <!-- Строка 1: С ДНЕМ -->
+                <div class="flex justify-center items-center gap-1.5">
+                    <div class="w-9 h-10 bg-black text-white font-bold text-xl flex items-center justify-center rounded shadow-md transform -rotate-6 border border-gray-800">С</div>
+                    <div class="w-2"></div>
+                    <div class="w-9 h-10 bg-stone-100 text-black font-bold text-xl flex items-center justify-center rounded shadow-md transform rotate-3 border border-gray-300">Д</div>
+                    <div class="w-9 h-10 bg-burgundy text-white font-bold text-xl flex items-center justify-center rounded shadow-md transform -rotate-3 border border-red-900">Н</div>
+                    <div class="w-9 h-10 bg-stone-900 text-white font-bold text-xl flex items-center justify-center rounded shadow-md transform rotate-6 border border-gray-800">Е</div>
+                    <div class="w-9 h-10 bg-amber-100 text-amber-950 font-bold text-xl flex items-center justify-center rounded shadow-md transform -rotate-2 border border-amber-300">М</div>
+                </div>
+                <!-- Строка 2: РОЖДЕНИЯ! -->
+                <div class="flex justify-center items-center gap-1">
+                    <div class="w-8 h-9 bg-black text-white font-bold text-lg flex items-center justify-center rounded shadow transform rotate-3 border border-gray-800">Р</div>
+                    <div class="w-8 h-9 bg-crimson text-white font-bold text-lg flex items-center justify-center rounded shadow transform -rotate-3 border border-red-800">О</div>
+                    <div class="w-8 h-9 bg-stone-100 text-black font-bold text-lg flex items-center justify-center rounded shadow transform rotate-6 border border-gray-300">Ж</div>
+                    <div class="w-8 h-9 bg-stone-900 text-white font-bold text-lg flex items-center justify-center rounded shadow transform -rotate-2 border border-gray-800">Д</div>
+                    <div class="w-8 h-9 bg-amber-200 text-amber-900 font-bold text-lg flex items-center justify-center rounded shadow transform rotate-3 border border-amber-400">Е</div>
+                    <div class="w-8 h-9 bg-black text-white font-bold text-lg flex items-center justify-center rounded shadow transform -rotate-6 border border-gray-800">Н</div>
+                    <div class="w-8 h-9 bg-stone-100 text-black font-bold text-lg flex items-center justify-center rounded shadow transform rotate-2 border border-gray-300">И</div>
+                    <div class="w-8 h-9 bg-burgundy text-white font-bold text-lg flex items-center justify-center rounded shadow transform -rotate-3 border border-red-900">Я</div>
+                    <div class="w-8 h-9 bg-crimson text-white font-bold text-lg flex items-center justify-center rounded shadow transform rotate-12 border border-red-800">!</div>
+                </div>
+            </section>
+
+            <!-- ГЛАВНЫЕ ПОЛАРОИДЫ СВЕРХУ -->
+            <div class="relative w-full flex justify-center">
+                <div class="tape absolute -top-3 left-1/2 transform -translate-x-1/2 w-28 h-6 z-20 -rotate-2"></div>
+                <div class="polaroid-card w-[90%] bg-white p-4 pb-6 rounded-sm polaroid-shadow transform -rotate-2 hover:rotate-0 transition-transform duration-300 relative">
+                    <div class="relative aspect-[4/3] bg-stone-100 overflow-hidden rounded-sm border border-stone-200">
+                        <img id="polaroid-img-1" src="https://i.ibb.co/cXrM7fnQ/3921150848-77852888853947-1770474176128.png" alt="Фото 1" class="w-full h-full object-cover">
+                    </div>
+                    <div class="mt-4 text-center">
+                        <p class="font-handwriting text-2xl text-gray-800"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================================================================= -->
+            <!-- 💌 РАЗДЕЛ ПИСЕМ И ПОЖЕЛАНИЙ С ФОТОГРАФИЯМИ И СВОРАЧИВАНИЕМ -->
+            <!-- ================================================================= -->
+            <section class="w-full pt-6 flex flex-col items-center gap-10">
+                
+                <div class="text-center mb-2">
+                    <span class="font-handwriting text-3xl text-burgundy font-bold">
+                        ~ Слова от родных и любимых ~
+                    </span>
+                </div>
+
+                <!-- 💌 1. ПОЛИНА (Голубая карточка #7cdcff + Полароид) -->
+                <div class="w-full flex flex-col items-center relative">
+                    <div class="w-[96%] bg-[#EAF8FF] p-5 rounded-2xl border-2 border-[#7cdcff] polaroid-shadow relative transform -rotate-1 z-10">
+                        <div class="tape absolute -top-3 left-6 w-20 h-5 bg-[#C3F0FF]/80 border border-[#7cdcff] z-20 -rotate-6"></div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-handwriting text-3xl text-[#026AA7] font-bold">От Полины 🤍</h4>
+                            <span class="text-[#38BDF8] text-lg">♥</span>
+                        </div>
+                        <div class="expandable-text-block">
+                            <p class="wish-text font-handwriting text-xl text-stone-800 leading-snug line-clamp-3-custom">
+                                22.09.26
+с днем рождения, сонечка🤍
+любимая, хочу поздравить тебя с твоим днем рождением.  пусть этот день запомниться тебе на всегда и будет самым лучшим в твоей жизни. ты самое лучшее , что есть в моей жизни. я тебя очень сильно люблю и ценю больше всех на свете, за все время с тобой ты мне стала очень близка и дорога. я хочу , чтобы ты всегда была счастлива. я постараюсь сделать все возможное для тебя , чтобы ты была рада. также хочу выразить тебе огромное спасибо за то , что с тобой я могу чувствовать себя любимой, я правда очень сильно это ценю. от всей души желаю тебе всего наилучшего, ведь твоя улыбка это самое главное. надеюсь , что с тобой буду только настоящие близкие люди. помни , что я всегда буду рядом с тобой в любое время. я тебе очень сильно доверяю и рада , что могу рассказать тебе  буквально всё. желаю всегда тебе оставаться такой же красивой и милой. помни , что я всегда тебя безумно сильно люблю!!! ты у меня самая красивая, самая милая , самая  нежная, самая любимая, самая веселая , самая обаятельная и вообще самая самая. также я очень сильно надеюсь , что мы будем всегда вместе. я очень рада , что в один прекрасный день познакомилась с тобой и никогда не пожалею об этом. люблю, целую, обнимаю🤍🤍
+                            </p>
+                            <button class="toggle-expand-btn hidden text-xs font-bold text-[#0284C7] underline mt-2 hover:text-[#0369A1] transition">
+                                Читать полностью 👇
+                            </button>
+                        </div>
+                    </div>
+                    <div class="w-[70%] bg-white p-2.5 pb-4 rounded-sm polaroid-shadow transform rotate-3 -mt-3 z-20 border border-[#B3ECFF]">
+                        <div class="tape absolute -top-2 right-4 w-16 h-4 bg-[#C3F0FF]/70 z-30 rotate-12"></div>
+                        <div class="aspect-[4/3] bg-stone-100 overflow-hidden rounded-xs">
+                            <img src="https://i.ibb.co/1tshrvsZ/photo-2026-09-21-11-52-56.jpg" alt="Фото Полины" class="w-full h-full object-cover">
+                        </div>
+                        <p class="font-handwriting text-xs text-center text-gray-600 mt-1.5">...</p>
+                    </div>
+                </div>
+
+                <!-- 💌 2. МАМА (Теплая карточка + 2 ПОЛАРОИДА) -->
+                <div class="w-full flex flex-col items-center relative">
+                    <div class="w-[96%] bg-[#FAF6EE] p-5 rounded-lg border-2 border-red-200/80 polaroid-shadow relative transform rotate-1 z-10">
+                        <div class="absolute -top-3 right-4 w-7 h-7 bg-red-100 rounded-full border border-red-300 flex items-center justify-center text-xs shadow-sm z-20">💐</div>
+                        <h4 class="font-handwriting text-3xl text-burgundy font-bold mb-1">От Мамы 🤍</h4>
+                        <div class="expandable-text-block">
+                            <p class="wish-text font-handwriting text-xl text-stone-800 leading-snug line-clamp-3-custom">
+                                милая, я так рада, что в этот твой день рождения, в твой день мы вместе, мы рядом и ты читаешь это!! Я так благодарна за всё годы дружбы, за твою бесконечную искренность и доверие, за твое терпение и поддержку, за всё игры, шутки, за то, что ты всегда рядом. Моя милая доченька, как же я тебя сильно люблю и ценю. Я могу повторять это бесконечно!! В 6-6.30 вечера будь дома обязательно, моя хорошая!!<3
+                            </p>
+                            <button class="toggle-expand-btn hidden text-xs font-bold text-burgundy underline mt-2 hover:opacity-80 transition">
+                                Читать полностью 👇
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 📸 2 ФОТОГРАФИИ ОТ МАМЫ -->
+                    <div class="w-[96%] grid grid-cols-2 gap-3.5 -mt-3 z-20 pt-2 px-1">
+                        <!-- Фото 1 Мамы -->
+                        <div class="bg-white p-2 pb-3 rounded-sm polaroid-shadow transform -rotate-2 hover:rotate-0 transition border border-amber-100">
+                            <div class="tape absolute -top-2 left-3 w-12 h-3.5 bg-amber-100/80 z-30 -rotate-6"></div>
+                            <div class="aspect-[4/3] bg-stone-100 overflow-hidden">
+                                <img src="https://i.ibb.co/7JRmXfXS/IMG-4042.jpg" alt="Фото Мамы 1" class="w-full h-full object-cover">
+                            </div>
+                            <p class="font-handwriting text-xs text-center text-gray-600 mt-1">...</p>
+                        </div>
+
+                        <!-- Фото 2 Мамы -->
+                        <div class="bg-white p-2 pb-3 rounded-sm polaroid-shadow transform rotate-3 hover:rotate-0 transition border border-red-100">
+                            <div class="tape absolute -top-2 right-3 w-12 h-3.5 bg-red-100/70 z-30 rotate-6"></div>
+                            <div class="aspect-[4/3] bg-stone-100 overflow-hidden">
+                                <img src="https://i.ibb.co/FrbGfsQ/IMG-4043.jpg" alt="Фото Мамы 2" class="w-full h-full object-cover">
+                            </div>
+                            <p class="font-handwriting text-xs text-center text-gray-600 mt-1">...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 💌 3. ПАПА (Бежевая карточка + Полароид) -->
+                <div class="w-full flex flex-col items-center relative">
+                    <div class="w-[96%] bg-[#F4EBE1] p-5 rounded-md border border-amber-900/20 polaroid-shadow relative transform -rotate-2 z-10">
+                        <div class="tape absolute -top-3 right-1/3 w-24 h-5 bg-amber-200/60 z-20 rotate-2"></div>
+                        <h4 class="font-handwriting text-3xl text-amber-950 font-bold mb-1 flex items-center gap-2">
+                            <span>От Папы</span>
+                            <span class="text-xs">🤍</span>
+                        </h4>
+                        <div class="expandable-text-block">
+                            <p class="wish-text font-handwriting text-xl text-stone-800 leading-snug line-clamp-3-custom">
+                                С днём рождения, Сонечка! ❤ Я очень рад, что ты появилась в моей жизни. Хоть я и не настоящий папа, ты всё равно стала мне по-настоящему родной. Желаю тебе много счастья, улыбок, исполнения желаний и людей рядом, которые всегда будут тебя ценить.
+                            </p>
+                            <button class="toggle-expand-btn hidden text-xs font-bold text-amber-900 underline mt-2 hover:opacity-80 transition">
+                                Читать полностью 👇
+                            </button>
+                        </div>
+                    </div>
+                    <div class="w-[72%] bg-[#FAF7F2] p-2.5 pb-4 rounded-sm polaroid-shadow transform rotate-3 -mt-3 z-20 border border-stone-300">
+                        <div class="aspect-[4/3] bg-stone-200 overflow-hidden">
+                            <img src="https://i.ibb.co/gFZpnzQ8/image.png" alt="Фото Папы" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 💌 4. ЯРИК (Желтая карточка + Сетка из 4 фото) -->
+                <div class="w-full flex flex-col items-center relative">
+                    <div class="w-[96%] bg-[#FEF9C3] p-5 rounded-lg shadow-md border border-yellow-300 relative transform rotate-1 z-10">
+                        <div class="absolute -top-3 left-4 w-16 h-6 bg-amber-200/80 border border-yellow-400 transform -rotate-12 z-20"></div>
+                        <h4 class="font-handwriting text-3xl text-amber-900 font-bold mb-1">От Ярика 🤍</h4>
+                        <div class="expandable-text-block">
+                            <p class="wish-text font-handwriting text-xl text-stone-800 leading-snug line-clamp-3-custom">
+                                С днём рождения кобылячья нежность! Ты самый слейный и крутой человек, я очень рад что мы смогли познакомится, а к тому же стать братишками, к тому же ты один из самых близких людей для меня! Ещё раз поздравляю с др и с тем что ты уже всё ближе к тому чтобы стать слей подростком! Желаю всего самого наилучшего, денег чтобы купить Юпитер, любви счастья и все такое, а так же главное чтобы близкие тебе люди, которых ты ценишь и они тебя были всегда рядом!
+                            </p>
+                            <button class="toggle-expand-btn hidden text-xs font-bold text-amber-900 underline mt-2 hover:text-amber-950 transition">
+                                Читать полностью 👇
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="w-[96%] grid grid-cols-2 gap-3.5 -mt-3 z-20 pt-2 px-1">
+                        <div class="bg-stone-900 text-white p-2 pb-3 rounded-sm polaroid-shadow transform -rotate-3 hover:rotate-0 transition">
+                            <div class="tape absolute -top-2 left-2 w-10 h-3 bg-yellow-100/70 z-30 -rotate-6"></div>
+                            <div class="aspect-square bg-stone-800 overflow-hidden rounded-xs">
+                                <img src="https://i.ibb.co/6pVSSLS/photo-2026-09-21-17-17-00-2.jpg" alt="Ярик фото 1" class="w-full h-full object-cover">
+                            </div>
+                            <p class="font-handwriting text-xs text-center text-yellow-200 mt-1">...</p>
+                        </div>
+
+                        <div class="bg-white p-2 pb-3 rounded-sm polaroid-shadow transform rotate-3 hover:rotate-0 transition border border-yellow-200">
+                            <div class="tape absolute -top-2 right-2 w-10 h-3 bg-amber-100/80 z-30 rotate-12"></div>
+                            <div class="aspect-square bg-stone-100 overflow-hidden rounded-xs">
+                                <img src="https://i.ibb.co/5gw0dV1M/photo-2026-09-21-17-17-00.jpg" alt="Ярик фото 2" class="w-full h-full object-cover">
+                            </div>
+                            <p class="font-handwriting text-xs text-center text-gray-700 mt-1">...</p>
+                        </div>
+
+                        <div class="bg-white p-2 pb-3 rounded-sm polaroid-shadow transform rotate-2 hover:rotate-0 transition border border-yellow-200">
+                            <div class="aspect-square bg-stone-100 overflow-hidden rounded-xs">
+                                <img src="https://i.ibb.co/Xrzfh4sM/image155.png" alt="Ярик фото 3" class="w-full h-full object-cover">
+                            </div>
+                            <p class="font-handwriting text-xs text-center text-gray-700 mt-1">...</p>
+                        </div>
+
+                        <div class="bg-stone-900 text-white p-2 pb-3 rounded-sm polaroid-shadow transform -rotate-2 hover:rotate-0 transition">
+                            <div class="tape absolute -bottom-1 right-2 w-10 h-3 bg-yellow-100/70 z-30 -rotate-12"></div>
+                            <div class="aspect-square bg-stone-800 overflow-hidden rounded-xs">
+                                <img src="https://i.ibb.co/TDQktNFh/photo-2026-09-21-17-16-59.jpg" alt="Ярик фото 4" class="w-full h-full object-cover">
+                            </div>
+                            <p class="font-handwriting text-xs text-center text-yellow-200 mt-1">...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 💌 5. МИЛАНА (Зеленая карточка + Полароид) -->
+                <div class="w-full flex flex-col items-center relative">
+                    <div class="w-[96%] bg-[#F0FDF4] p-5 rounded-2xl border border-emerald-200 paper-shadow relative transform -rotate-1 z-10">
+                        <div class="absolute top-3 right-4 text-emerald-400 text-sm z-20"></div>
+                        <h4 class="font-handwriting text-3xl text-emerald-800 font-bold mb-1">От Миланы 🤍</h4>
+                        <div class="expandable-text-block">
+                            <p class="wish-text font-handwriting text-xl text-stone-800 leading-snug line-clamp-3-custom">
+                                С днём рождения , Сонечка ! Мы плохо знакомы лично , но я могу сказать , что ты очень хорошая , и я за многое тебе благодарна ( к слову , если бы не ты , мы бы с Яриком так и не пересеклись , хехе ) . Также я бы очень хотела , чтобы в первую очередь у тебя всё было хорошо . Не забывай следить за своим здоровьем — это тоже очень важно ! И неважно, что говорят другие : знай , что ты милая , красивая и , думаю, морально сильная девочка . Не всегда всё идёт хорошо , конечно , бывают и чёрные полосы в жизни , и неудачи , но я верю , что ты пройдёшь через все трудности , если они будут встречаться на твоём пути (а лучше , чтобы их вообще, конечно , не было) . По базе желаю тебе всего самого-самого хорошего , будь счастлива и отпразднуй этот прекрасный день в кругу близких тебе людей . 🩷 Пусть в твоей жизни будет больше ярких , радужных моментов , и вообще желаю ещё получить ту жизнь , о которой ты мечтала .
+Мяяяу ❤️❤️ Пушистый подарочек , сладкий тортик и миллион обнимашек !! 🎂💝
+                            </p>
+                            <button class="toggle-expand-btn hidden text-xs font-bold text-emerald-700 underline mt-2 hover:opacity-80 transition">
+                                Читать полностью 👇
+                            </button>
+                        </div>
+                    </div>
+                    <div class="w-[70%] bg-white p-2.5 pb-4 rounded-sm polaroid-shadow transform rotate-2 -mt-3 z-20 border border-emerald-100">
+                        <div class="aspect-[4/3] bg-stone-100 overflow-hidden">
+                            <img src="https://i.ibb.co/5hppW8Ks/imag99e.png" alt="Фото Миланы" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 💌 6. ВИКА (СЕСТРА) -->
+                <div class="w-full flex flex-col items-center relative">
+                    <div class="w-[96%] bg-white p-5 rounded-lg border-l-4 border-l-blue-400 border-y border-r border-gray-200 polaroid-shadow relative transform rotate-1 z-10">
+                        <h4 class="font-handwriting text-3xl text-blue-900 font-bold mb-1">От сестры Викули 🤍</h4>
+                        <div class="expandable-text-block">
+                            <p class="wish-text font-handwriting text-xl text-stone-800 leading-snug line-clamp-3-custom">
+                                Привет, ты давно растешь без меня и приезжаю я редко, а когда приезжаю - мы только привет друг другу и говорим, но знай:
+
+Сейчас тебе исполнилось 12 лет, я жду когда ты достигнешь того возраста, когда мы сможем разговаривать бесконечно на любую тему и обсуждать всё вокруг, я жду этого уже 12 лет и подожду ещё. Главное, чтобы ты сама была готова и хотела. Так что знай, что я всегда тебя выслушаю, поддержу и подставлю плечо в трудный момент. Нет никого и ничего важнее семьи и моя семья - это ты.
+
+С Днем Рождения, расти сильной духом, не трать свое внимание на тех, кто его не достоин и никогда не отворачивайся от семьи.
+                            </p>
+                            <button class="toggle-expand-btn hidden text-xs font-bold text-blue-800 underline mt-2 hover:opacity-80 transition">
+                                Читать полностью 👇
+                            </button>
+                        </div>
+                    </div>
+                    <div class="w-[72%] bg-white p-2.5 pb-4 rounded-sm polaroid-shadow transform -rotate-3 -mt-3 z-20 border border-blue-100">
+                        <div class="tape absolute -top-2 left-6 w-16 h-4 bg-blue-100/70 z-30 -rotate-3"></div>
+                        <div class="aspect-[4/3] bg-stone-100 overflow-hidden">
+                            <img src="https://i.ibb.co/KjsjHzzN/photo-2024-12-15-16-45-43.jpg" alt="Фото Вики" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 💌 7. НАСТЯ -->
+                <div class="w-full flex flex-col items-center relative">
+                    <div class="w-[96%] bg-[#F3E8FF] p-5 rounded-2xl border-2 border-purple-300 polaroid-shadow relative transform -rotate-1 z-10">
+                        <div class="tape absolute -top-3 right-6 w-20 h-5 bg-purple-200/80 border border-purple-300 z-20 rotate-6"></div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-handwriting text-3xl text-purple-900 font-bold">От Насти 🤍</h4>
+                            <span class="text-purple-400 text-lg"></span>
+                        </div>
+                        <div class="expandable-text-block">
+                            <p class="wish-text font-handwriting text-xl text-stone-800 leading-snug line-clamp-3-custom">
+                                соффе🤍
+
+
+
+поздравляю с дрршкой🤍🤍
+
+тебе уже 12 мы в 6 классе
+но странно,мы же недавно познакомились и только пошли в 1 класс,но вот уже как 5 лет дружим,все наши ссоры это мелочи в жизни, с тобой я почувствовала себя живой,с тобой я не знаю что такое социафобия и что такое плакатт
+
+с тобой всегда весело и ты умеешь поддержать в трудную минуту,я рада что ты появилась в моей жизни 
+
+
+люблю тебя💕💕
+
+и еще раз с днём рождения 🤍
+                            </p>
+                            <button class="toggle-expand-btn hidden text-xs font-bold text-purple-800 underline mt-2 hover:opacity-80 transition">
+                                Читать полностью 👇
+                            </button>
+                        </div>
+                    </div>
+                    <div class="w-[70%] bg-white p-2.5 pb-4 rounded-sm polaroid-shadow transform rotate-3 -mt-3 z-20 border border-purple-100">
+                        <div class="aspect-[4/3] bg-stone-100 overflow-hidden">
+                            <img src="https://i.ibb.co/ZpRkPGRC/photo-2026-09-21-16-00-32.jpg" alt="Фото Насти" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 🐾 8. КОШКА (Секретная карточка) -->
+                <div id="cat-card-container" class="w-[96%] bg-[#FFFBEB] p-5 rounded-3xl border-2 border-amber-300 polaroid-shadow relative transform rotate-1 overflow-hidden">
+                    <div id="cat-lock-overlay" class="absolute inset-0 bg-amber-100/90 backdrop-blur-md z-30 flex flex-col items-center justify-center p-4 text-center cursor-pointer transition-all duration-500 hover:bg-amber-100/80">
+                        <div class="w-12 h-12 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-lg mb-2 animate-bounce">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        </div>
+                        <h5 class="font-handwriting text-2xl font-bold text-amber-950">Секретное послание</h5>
+                        <p class="text-xs text-amber-800 font-medium mt-1 bg-amber-200/80 px-3 py-1 rounded-full border border-amber-300">
+                            Нажми, чтобы сыграть в «Мемори» и открыть! 🎮
+                        </p>
+                    </div>
+
+                    <div id="cat-card-content" class="filter blur-md select-none transition-all duration-700">
+                        <div class="flex items-center justify-between mb-1">
+                            <h4 class="font-handwriting text-3xl text-amber-900 font-bold flex items-center gap-1">
+                                от Маруси 🐾
+                            </h4>
+                            <span id="unlocked-badge" class="hidden bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                                ОТКРЫТО! ✨
+                            </span>
+                        </div>
+                        <p class="font-handwriting text-2xl text-amber-950 leading-relaxed">
+                            Мяу-мяу! Мяумяу мяумяму мяяяяяяяяу! Мяу. ❤️
+                        </p>
+                    </div>
+                </div>
+
+            </section>
+
+            <footer class="w-full text-center py-10">
+                <p class="font-serif italic text-2xl text-stone-700 tracking-wide">
+                    Продолжение следует... ❤️
+                </p>
+            </footer>
+        </main>
+
+    </div>
+
+    <!-- Модальное окно игры "Мемори" -->
+    <div id="memory-modal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex-col items-center justify-center p-4">
+        <div class="bg-[#FFFDF9] border-2 border-amber-300 rounded-3xl p-6 w-full max-w-[340px] shadow-2xl relative flex flex-col items-center text-center">
+            <button id="close-memory-btn" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 p-1">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="text-3xl mb-1">❔</div>
+            <h3 class="font-handwriting text-3xl font-bold text-amber-950 mb-1">Память</h3>
+            <p class="text-xs text-gray-600 mb-4 font-sans">Найди 3 пары предметов, чтобы разблокировать секрет!</p>
+            <div id="memory-grid" class="grid grid-cols-3 gap-3 w-full mb-4"></div>
+            <div id="memory-status" class="text-xs font-bold text-amber-800 h-5">Найди все совпадения!</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const step1 = document.getElementById('step-1');
+            const step2 = document.getElementById('step-2');
+            const scrapbookFeed = document.getElementById('scrapbook-feed');
+            
+            const tapToOpenBtn = document.getElementById('tap-to-open-btn');
+            const sealStep1 = document.getElementById('seal-step-1');
+            const openItBtn = document.getElementById('open-it-btn');
+            const letterPreview = document.getElementById('letter-preview');
+            
+            const clearKissesBtn = document.getElementById('clear-kisses-btn');
+            const kissCountSpan = document.getElementById('kiss-count');
+
+            let kissCount = 0;
+
+            // 1. АНИМАЦИИ ПЕРЕХОДА
+            function goToStep2WithAnimation(e) {
+                if (e) e.stopPropagation();
+                sealStep1.classList.add('anim-fly-away');
+                setTimeout(() => {
+                    step1.classList.add('hidden');
+                    step2.classList.remove('hidden');
+                    step2.classList.add('flex');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 550);
+            }
+
+            tapToOpenBtn.addEventListener('click', goToStep2WithAnimation);
+            sealStep1.addEventListener('click', goToStep2WithAnimation);
+
+            let isLetterPulling = false;
+            function pullOutLetterAndOpen() {
+                if (isLetterPulling) return;
+                isLetterPulling = true;
+                letterPreview.style.transition = 'transform 1.3s cubic-bezier(0.22, 1, 0.36, 1)';
+                letterPreview.style.transform = 'translateY(-180px)';
+
+                setTimeout(() => {
+                    step2.classList.add('hidden');
+                    scrapbookFeed.classList.remove('hidden');
+                    scrapbookFeed.classList.add('flex');
+                    clearKissesBtn.classList.remove('hidden');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    checkExpandableTexts();
+                }, 1400);
+            }
+
+            openItBtn.addEventListener('click', pullOutLetterAndOpen);
+
+            // СВАЙП ПИСЬМА
+            let startY = 0, currentY = 0, isDragging = false;
+            function handleStart(e) {
+                if (isLetterPulling) return;
+                startY = e.touches ? e.touches[0].clientY : e.clientY;
+                isDragging = true;
+                letterPreview.style.transition = 'none';
+            }
+            function handleMove(e) {
+                if (!isDragging || isLetterPulling) return;
+                currentY = e.touches ? e.touches[0].clientY : e.clientY;
+                let deltaY = currentY - startY;
+                if (deltaY < 0) {
+                    letterPreview.style.transform = `translateY(${Math.max(deltaY, -180)}px)`;
+                }
+            }
+            function handleEnd() {
+                if (!isDragging || isLetterPulling) return;
+                isDragging = false;
+                if (currentY - startY < -40) {
+                    pullOutLetterAndOpen();
+                } else {
+                    letterPreview.style.transition = 'transform 0.4s ease-out';
+                    letterPreview.style.transform = 'translateY(0px)';
+                }
+            }
+
+            letterPreview.addEventListener('touchstart', handleStart, { passive: true });
+            letterPreview.addEventListener('touchmove', handleMove, { passive: true });
+            letterPreview.addEventListener('touchend', handleEnd);
+            letterPreview.addEventListener('mousedown', handleStart);
+            window.addEventListener('mousemove', handleMove);
+            window.addEventListener('mouseup', handleEnd);
+            letterPreview.addEventListener('click', () => { if (!isLetterPulling) pullOutLetterAndOpen(); });
+
+            // 2. ЛОГИКА СВОРАЧИВАНИЯ / РАЗВОРАЧИВАНИЯ ТЕКСТА
+            function checkExpandableTexts() {
+                document.querySelectorAll('.expandable-text-block').forEach(block => {
+                    const textEl = block.querySelector('.wish-text');
+                    const btn = block.querySelector('.toggle-expand-btn');
+
+                    if (textEl.scrollHeight > textEl.clientHeight + 5) {
+                        btn.classList.remove('hidden');
+                    }
+
+                    btn.addEventListener('click', () => {
+                        if (textEl.classList.contains('line-clamp-3-custom')) {
+                            textEl.classList.remove('line-clamp-3-custom');
+                            textEl.classList.add('line-clamp-none-custom');
+                            btn.textContent = 'Свернуть 👆';
+                        } else {
+                            textEl.classList.remove('line-clamp-none-custom');
+                            textEl.classList.add('line-clamp-3-custom');
+                            btn.textContent = 'Читать полностью 👇';
+                        }
+                    });
+                });
+            }
+
+            // 3. ПОЦЕЛУИ НА ЭКРАНЕ
+            document.body.addEventListener('click', (e) => {
+                if (e.target.closest('button') || e.target.closest('#step-1') || e.target.closest('#step-2') || e.target.closest('#memory-modal')) return;
+                spawnKissMark(e.pageX, e.pageY);
+            });
+
+            function spawnKissMark(pageX, pageY) {
+                const kiss = document.createElement('div');
+                kiss.className = 'kiss-stamp';
+                const randomRot = (Math.random() * 50 - 25).toFixed(1) + 'deg';
+                const randomScale = (0.85 + Math.random() * 0.3).toFixed(2);
+
+                kiss.style.setProperty('--rot', randomRot);
+                kiss.style.left = pageX + 'px';
+                kiss.style.top = pageY + 'px';
+
+                kiss.innerHTML = `
+                    <div style="transform: scale(${randomScale});" class="pointer-events-none">
+                        <svg class="w-16 h-12 filter drop-shadow" viewBox="0 0 100 68">
+                            <path d="M10 28C18 16 33 10 48 18C50 19 52 21 53 21C54 21 56 19 58 18C73 10 88 16 96 28C88 22 76 21 66 26C58 30 55 32 53 32C51 32 48 30 40 26C30 21 18 22 10 28Z" fill="#8B0000"/>
+                            <path d="M22 20C30 14 42 15 50 20C42 17 30 16 22 20Z" fill="#C0392B"/>
+                            <path d="M56 20C64 15 76 14 84 20C76 16 64 17 56 20Z" fill="#C0392B"/>
+                            <path d="M15 38C26 54 41 60 53 60C65 60 80 54 91 38C79 50 66 53 53 53C40 53 27 50 15 38Z" fill="#8B0000"/>
+                            <path d="M25 44C35 52 45 54 53 54C61 54 71 52 81 44C71 50 61 51 53 51C45 51 35 50 25 44Z" fill="#C0392B"/>
+                        </svg>
+                    </div>`;
+                document.body.appendChild(kiss);
+                kissCount++;
+                kissCountSpan.textContent = kissCount;
+            }
+
+            clearKissesBtn.addEventListener('click', () => {
+                document.querySelectorAll('.kiss-stamp').forEach(s => s.remove());
+                kissCount = 0;
+                kissCountSpan.textContent = 0;
+            });
+
+            // 4. ИГРА МЕМОРИ
+            const catLockOverlay = document.getElementById('cat-lock-overlay');
+            const catCardContent = document.getElementById('cat-card-content');
+            const unlockedBadge = document.getElementById('unlocked-badge');
+            const memoryModal = document.getElementById('memory-modal');
+            const closeMemoryBtn = document.getElementById('close-memory-btn');
+            const memoryGrid = document.getElementById('memory-grid');
+            const memoryStatus = document.getElementById('memory-status');
+
+            let isCatUnlocked = false;
+            const memoryItems = ['🧶', '🐱', '🐟'];
+            let flippedCards = [], matchedPairs = 0;
+
+            catLockOverlay.addEventListener('click', () => { if (!isCatUnlocked) openMemoryGame(); });
+            closeMemoryBtn.addEventListener('click', () => { memoryModal.classList.add('hidden'); memoryModal.classList.remove('flex'); });
+
+            function openMemoryGame() {
+                memoryModal.classList.remove('hidden');
+                memoryModal.classList.add('flex');
+                initMemoryGame();
+            }
+
+            function initMemoryGame() {
+                matchedPairs = 0; flippedCards = [];
+                memoryStatus.textContent = "Найди все совпадения!";
+                memoryStatus.className = "text-xs font-bold text-amber-800 h-5";
+                let cardsArray = [...memoryItems, ...memoryItems].sort(() => Math.random() - 0.5);
+                memoryGrid.innerHTML = '';
+                cardsArray.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'w-20 h-20 bg-amber-100 border-2 border-amber-300 rounded-2xl flex items-center justify-center text-3xl cursor-pointer shadow-sm transition-all duration-300 transform active:scale-95 select-none';
+                    card.dataset.symbol = item;
+                    card.innerHTML = '🔒';
+                    card.addEventListener('click', () => handleCardClick(card));
+                    memoryGrid.appendChild(card);
+                });
+            }
+
+            function handleCardClick(card) {
+                if (flippedCards.length >= 2 || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+                card.classList.add('flipped', 'bg-white');
+                card.classList.remove('bg-amber-100');
+                card.innerHTML = card.dataset.symbol;
+                flippedCards.push(card);
+
+                if (flippedCards.length === 2) {
+                    const [c1, c2] = flippedCards;
+                    if (c1.dataset.symbol === c2.dataset.symbol) {
+                        c1.classList.add('matched', 'border-emerald-400', 'bg-emerald-50');
+                        c2.classList.add('matched', 'border-emerald-400', 'bg-emerald-50');
+                        flippedCards = [];
+                        matchedPairs++;
+                        if (matchedPairs === memoryItems.length) {
+                            memoryStatus.textContent = "🎉 Победа! Послание открыто!";
+                            memoryStatus.className = "text-xs font-bold text-emerald-600 h-5 animate-bounce";
+                            setTimeout(unlockCatCard, 1000);
+                        }
+                    } else {
+                        setTimeout(() => {
+                            c1.classList.remove('flipped', 'bg-white'); c1.classList.add('bg-amber-100'); c1.innerHTML = '🔒';
+                            c2.classList.remove('flipped', 'bg-white'); c2.classList.add('bg-amber-100'); c2.innerHTML = '🔒';
+                            flippedCards = [];
+                        }, 700);
+                    }
+                }
+            }
+
+            function unlockCatCard() {
+                isCatUnlocked = true;
+                memoryModal.classList.add('hidden');
+                memoryModal.classList.remove('flex');
+                catLockOverlay.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => catLockOverlay.remove(), 500);
+                catCardContent.classList.remove('blur-md', 'select-none');
+                unlockedBadge.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
